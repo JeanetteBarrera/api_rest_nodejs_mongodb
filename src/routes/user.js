@@ -1,8 +1,14 @@
-import { Router } from "express";
-import controller from "../controllers/usersController";
+const router = require("express").Router()
+const controller = require("../controllers/usersController");
 
-const router = Router();
+const path = 'user'
 
+router.get(
+    `${path}/signin`, controller.signin
+)
+
+
+/*
 
 router.get("/signin", controller.signin);
 router.post("/signin", controller.processSignin);
@@ -17,7 +23,7 @@ router.delete("/profile/:id", controller.deleteProfile);
 
 router.get("/clouthing/likes", controller.allLikesProducts);
 router.get("/clouthing/recommended", controller.recommended);
-
+*/
 
 
 export default router;
