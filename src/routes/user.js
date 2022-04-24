@@ -1,29 +1,13 @@
 const router = require("express").Router()
 const controller = require("../controllers/usersController");
 
-const path = 'user'
+const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require("../middlewares/verifyToken")
 
-router.get(
-    `${path}/signin`, controller.signin
-)
-
-
-/*
-
-router.get("/signin", controller.signin);
-router.post("/signin", controller.processSignin);
-
-router.get("/login", controller.login);
-router.post("/login", controller.processLogin);
-
-router.get("/profile", controller.profile);
-router.get("/profile/:id", controller.editProfile);
-router.put("/profile/:id", controller.updateProfile);
-router.delete("/profile/:id", controller.deleteProfile);
-
-router.get("/clouthing/likes", controller.allLikesProducts);
-router.get("/clouthing/recommended", controller.recommended);
-*/
+router.get("/", verifyTokenAndAdmin, controller.findAll);
+router.get("/stats", verifyTokenAndAdmin, controller.stats)
+router.get("/:id", verifyTokenAndAdmin, controller.findUser);
+router.put("/:id", verifyToken, controller.updateUser);
+router.delete("/:id", verifyTokenAndAuthorization, controller.deleteProfile);
 
 
-export default router;
+module.exports = router;

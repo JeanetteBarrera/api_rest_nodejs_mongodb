@@ -32,17 +32,20 @@ let controller = {
             })
     
             if(user) {
-                if(bcrypt.compareSync(password.trim(), user._doc.password)) {
-                    const { password, others } = user._doc
+                if(bcrypt.compareSync(password.trim(), user.password)) {
                     
                     const accessToken = jwt.sign(
                         {
                             id: user._id,
-                            isAdmin: user.isAdmin
+                            isAdmin: user.isAdmin,
+                        },
+                        process.env.JWT_SEC,
+                        {
+                            expiresIn: "3d"
                         }
                     )
-                    
-                    res.status(200).json(others)
+                    const { password, ...others } = user._doc
+                    res.status(200).json({...others, accessToken})
                 } else {
                     res.status(401).json("Wrong Credential")
                 }
