@@ -1,12 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose")
-//import '@babel/polyfill';
-require("dotenv").config()
-//import { connect } from "./database";
+require("dotenv").config();
+const cors = require("cors");
 
 const app = express();
-app.use(express.json())
 
+app.use(express.json())
+app.use(cors())
 
 mongoose
     .connect(
@@ -22,17 +22,17 @@ mongoose
 
 
 /***** Routers *****/
-const adminRouter = rquire("./routes/admin");
+const cartRouter = rquire("./routes/cart");
 const productRouter = require("./routes/product");
 const userRouter = require("./routes/user");
 const authRouter = require("./routes/auth");
 
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/user", userRouter);
-//app.use(adminRouter);
+app.use("/api/v1/cart", cartRouter);
 app.use('/api/v1/auth', authRouter);
 
 
-app.listen(3000, () => {
-    console.log("Server on port 3000")
+app.listen(process.env.PORT || 3002, () => {
+    console.log("Server is running!")
 })
